@@ -13,6 +13,7 @@
 		2E90623C2608273A00AD77A5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E90623A2608273A00AD77A5 /* Main.storyboard */; };
 		2E9062482608273B00AD77A5 /* swtappTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9062472608273B00AD77A5 /* swtappTests.swift */; };
 		2E9062532608273B00AD77A5 /* swtappUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E9062522608273B00AD77A5 /* swtappUITests.swift */; };
+		2E90626626082B2300AD77A5 /* ffmpeg.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E90626526082B2300AD77A5 /* ffmpeg.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +47,9 @@
 		2E90624E2608273B00AD77A5 /* swtappUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = swtappUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E9062522608273B00AD77A5 /* swtappUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = swtappUITests.swift; sourceTree = "<group>"; };
 		2E9062542608273B00AD77A5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E90626326082B2300AD77A5 /* swtapp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "swtapp-Bridging-Header.h"; sourceTree = "<group>"; };
+		2E90626426082B2300AD77A5 /* ffmpeg.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ffmpeg.h; sourceTree = "<group>"; };
+		2E90626526082B2300AD77A5 /* ffmpeg.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ffmpeg.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,10 +102,13 @@
 			children = (
 				2E9062342608273800AD77A5 /* AppDelegate.swift */,
 				2E9062362608273800AD77A5 /* ViewController.swift */,
+				2E90626426082B2300AD77A5 /* ffmpeg.h */,
+				2E90626526082B2300AD77A5 /* ffmpeg.c */,
 				2E9062382608273A00AD77A5 /* Assets.xcassets */,
 				2E90623A2608273A00AD77A5 /* Main.storyboard */,
 				2E90623D2608273A00AD77A5 /* Info.plist */,
 				2E90623E2608273A00AD77A5 /* swtapp.entitlements */,
+				2E90626326082B2300AD77A5 /* swtapp-Bridging-Header.h */,
 			);
 			path = swtapp;
 			sourceTree = "<group>";
@@ -191,6 +198,7 @@
 				TargetAttributes = {
 					2E9062302608273800AD77A5 = {
 						CreatedOnToolsVersion = 12.4;
+						LastSwiftMigration = 1240;
 					};
 					2E9062422608273B00AD77A5 = {
 						CreatedOnToolsVersion = 12.4;
@@ -253,6 +261,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E90626626082B2300AD77A5 /* ffmpeg.c in Sources */,
 				2E9062372608273800AD77A5 /* ViewController.swift in Sources */,
 				2E9062352608273800AD77A5 /* AppDelegate.swift in Sources */,
 			);
@@ -421,6 +430,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = swtapp/swtapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -431,6 +441,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiniu.swtapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "swtapp/swtapp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
@@ -440,6 +452,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = swtapp/swtapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -450,6 +463,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.qiniu.swtapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "swtapp/swtapp-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
