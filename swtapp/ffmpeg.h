@@ -12,6 +12,7 @@
 #include "libavutil/avutil.h"
 #include "libavdevice/avdevice.h"
 #include "libavformat/avformat.h"
+#include "libavcodec/avcodec.h"
 
 void callFFmpeg(void);
 

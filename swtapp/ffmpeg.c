@@ -12,10 +12,15 @@ void callFFmpeg (){
     printf("c ... call\r\n");
     
     int ret = 0;
-    char errors[1024];
+    char errors[1024] = {0,};
     AVFormatContext *fmt_ctx = NULL;
     //[[video device]:[audio device]]
     char *devicename = ":0";
+    AVDictionary *option = NULL;
+    
+    //av packet
+    int count = 0;
+    AVPacket pkt;
     
     //register all device
     avdevice_register_all();
@@ -23,14 +28,36 @@ void callFFmpeg (){
     //get format
     AVInputFormat  *iFormat = av_find_input_format("avfoundation");
     
-    ret = avformat_open_input(&fmt_ctx, devicename, iFormat, NULL);
-    
-    if (ret <0 ) {
+    //open  input
+    if ((ret = avformat_open_input(&fmt_ctx, devicename, iFormat,
+                                   &option)) < 0 ) {
         av_strerror(ret, errors, 1024);
-        printf(stderr," Failed to open audio device, [%d] %s\n",ret,errors);
+        av_log(NULL, AV_LOG_ERROR, " Failed to open audio device, [%d] %s\n",ret,errors);
         return;
     }
     
+    //av init
+    av_init_packet(&pkt);
+  
+    while (count++<500) {
+        ret = av_read_frame(fmt_ctx, &pkt);
+        if (ret >=0) {
+            av_log(NULL, AV_LOG_INFO,
+                                 "packet size is %d(%p)\n",
+                                 pkt.size, pkt.data);
+        }
+        av_packet_unref(&pkt);
+    }
+    
+//    while ((ret = av_read_frame(fmt_ctx, &pkt)) == 0 &&
+//           count++ <500) {
+//        av_log(NULL, AV_LOG_INFO,
+//                     "packet size is %d(%p)\n",
+//                     pkt.size, pkt.data);
+//        av_packet_unref(&pkt);
+//    }
+    
+    avformat_close_input(&fmt_ctx);
     av_log_set_level(AV_LOG_DEBUG);
     av_log(NULL, AV_LOG_DEBUG, "HW ffmpeg log...\n");
     
