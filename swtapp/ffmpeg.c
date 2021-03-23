@@ -36,6 +36,12 @@ void callFFmpeg (){
         return;
     }
     
+    
+    //create file
+    char *out ="/Users/chenhui/qiniu/temp/1.pcm";
+    FILE *outFile = fopen(out, "wb+");
+    
+    
     //av init
     av_init_packet(&pkt);
   
@@ -45,17 +51,14 @@ void callFFmpeg (){
             av_log(NULL, AV_LOG_INFO,
                                  "packet size is %d(%p)\n",
                                  pkt.size, pkt.data);
+            fwrite(pkt.data, pkt.size, 1, outFile);
+            fflush(outFile);
         }
         av_packet_unref(&pkt);
     }
     
-//    while ((ret = av_read_frame(fmt_ctx, &pkt)) == 0 &&
-//           count++ <500) {
-//        av_log(NULL, AV_LOG_INFO,
-//                     "packet size is %d(%p)\n",
-//                     pkt.size, pkt.data);
-//        av_packet_unref(&pkt);
-//    }
+    fclose(outFile);
+    
     
     avformat_close_input(&fmt_ctx);
     av_log_set_level(AV_LOG_DEBUG);
