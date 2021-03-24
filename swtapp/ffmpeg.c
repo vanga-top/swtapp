@@ -7,6 +7,7 @@
 
 #include "ffmpeg.h"
 
+static int rec_status = 0;
 
 void callFFmpeg (){
     printf("c ... call\r\n");
@@ -19,7 +20,6 @@ void callFFmpeg (){
     AVDictionary *option = NULL;
     
     //av packet
-    int count = 0;
     AVPacket pkt;
     
     //register all device
@@ -44,13 +44,25 @@ void callFFmpeg (){
     
     //av init
     av_init_packet(&pkt);
+    
+    rec_status = 1;
+    
+    //重采样
+    SwrContext *swr_ctx = NULL;
+    swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO,AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
   
-    while (count++<500) {
+    if (!swr_ctx) {
+        return;
+    }
+    if (swr_init(swr_ctx)!=0) {
+        return;
+    }
+    
+    
+    while (rec_status > 0) {
         ret = av_read_frame(fmt_ctx, &pkt);
         if (ret >=0) {
-            av_log(NULL, AV_LOG_INFO,
-                                 "packet size is %d(%p)\n",
-                                 pkt.size, pkt.data);
+            av_log(NULL, AV_LOG_INFO, "packet size is %d(%p)\n", pkt.size, pkt.data);
             fwrite(pkt.data, pkt.size, 1, outFile);
             fflush(outFile);
         }
@@ -62,7 +74,12 @@ void callFFmpeg (){
     
     avformat_close_input(&fmt_ctx);
     av_log_set_level(AV_LOG_DEBUG);
-    av_log(NULL, AV_LOG_DEBUG, "HW ffmpeg log...\n");
+    av_log(NULL, AV_LOG_DEBUG, "stop record audio........\n");
     
     return;
+}
+
+
+void set_rec_status(int status) {
+    rec_status = status;
 }
