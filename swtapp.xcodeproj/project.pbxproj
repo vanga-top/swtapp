@@ -20,6 +20,7 @@
 		2E90627626082F7F00AD77A5 /* libavformat.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 2E90627326082F7F00AD77A5 /* libavformat.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		2E90627726082F7F00AD77A5 /* libavutil.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2E90627426082F7F00AD77A5 /* libavutil.dylib */; };
 		2E90627826082F7F00AD77A5 /* libavutil.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 2E90627426082F7F00AD77A5 /* libavutil.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		2E9062912611DB9600AD77A5 /* network.c in Sources */ = {isa = PBXBuildFile; fileRef = 2E9062902611DB9600AD77A5 /* network.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +76,8 @@
 		2E90626D26082F5F00AD77A5 /* libavdevice.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libavdevice.dylib; path = swtapp/libs/libavdevice.dylib; sourceTree = "<group>"; };
 		2E90627326082F7F00AD77A5 /* libavformat.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libavformat.dylib; path = swtapp/libs/libavformat.dylib; sourceTree = "<group>"; };
 		2E90627426082F7F00AD77A5 /* libavutil.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libavutil.dylib; path = swtapp/libs/libavutil.dylib; sourceTree = "<group>"; };
+		2E90628F2611DB9600AD77A5 /* network.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = network.h; sourceTree = "<group>"; };
+		2E9062902611DB9600AD77A5 /* network.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = network.c; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -138,6 +141,8 @@
 				2E90623D2608273A00AD77A5 /* Info.plist */,
 				2E90623E2608273A00AD77A5 /* swtapp.entitlements */,
 				2E90626326082B2300AD77A5 /* swtapp-Bridging-Header.h */,
+				2E90628F2611DB9600AD77A5 /* network.h */,
+				2E9062902611DB9600AD77A5 /* network.c */,
 			);
 			path = swtapp;
 			sourceTree = "<group>";
@@ -301,6 +306,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E9062912611DB9600AD77A5 /* network.c in Sources */,
 				2E90626626082B2300AD77A5 /* ffmpeg.c in Sources */,
 				2E9062372608273800AD77A5 /* ViewController.swift in Sources */,
 				2E9062352608273800AD77A5 /* AppDelegate.swift in Sources */,
