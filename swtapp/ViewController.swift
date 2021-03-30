@@ -44,7 +44,8 @@ class ViewController: NSViewController {
     
     @objc
     func recAudio()  {
-        rec_audio()
+        //rec_audio()
+        rec_video()
     }
 
     override var representedObject: Any? {

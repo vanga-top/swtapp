@@ -16,6 +16,7 @@
 #include "libswresample/swresample.h"
 
 void rec_audio(void);
+void rec_video(void);
 void set_rec_status(int status);
 
 #endif /* ffmpeg_h */

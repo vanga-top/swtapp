@@ -28,5 +28,7 @@
 	<string>NSApplication</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>NSApplication</string>
+    <key>NSCameraUsageDescription</key>
+    <string>NSApplication</string>
 </dict>
 </plist>

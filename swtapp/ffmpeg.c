@@ -9,16 +9,20 @@
 
 static int rec_status = 0;
 
-AVFormatContext* registerAVDevice(){
+static AVFormatContext* registerAVDevice(char *deviceType, AVDictionary *option){
     
     printf("start register av devices...\r\n");
     
     int ret = 0;
     char errors[1024] = {0,};
     AVFormatContext *fmt_ctx = NULL;
+    
+    if (deviceType == NULL) {
+        deviceType = "0:0";
+    }
+    
     //[[video device]:[audio device]]
-    char *devicename = ":0";
-    AVDictionary *option = NULL;
+    char *devicename = deviceType;
     
     //register all device
     avdevice_register_all();
@@ -30,7 +34,7 @@ AVFormatContext* registerAVDevice(){
     if ((ret = avformat_open_input(&fmt_ctx, devicename, iFormat,
                                    &option)) < 0 ) {
         av_strerror(ret, errors, 1024);
-        av_log(NULL, AV_LOG_ERROR, " Failed to open audio device, [%d] %s\n",ret,errors);
+        av_log(NULL, AV_LOG_ERROR, " Failed to open device, [%d] %s\n",ret,errors);
         return NULL;
     }
     
@@ -39,18 +43,59 @@ AVFormatContext* registerAVDevice(){
 
 /**
     采集视频模块
+        play    ffplay -pix_fmt uyvy422 -s 1280x720 1.yuv
  */
 void rec_video(){
+    printf("ffmpeg record video...");
+    
+    AVDictionary *option = NULL;
+    av_dict_set(&option, "video_size", "1280x720", 0);
+    av_dict_set(&option, "framerate", "30", 0);
+    AVFormatContext *fmt_ctx = registerAVDevice("0",option);
+    
+    
+    int ret = 0;
+    //av packet
+    AVPacket pkt;
+    
+    //create file
+    char *out ="/Users/chenhui/qiniu/temp/1.yuv";
+    FILE *outFile = fopen(out, "wb+");
+    
+    
+    //av init
+    av_init_packet(&pkt);
+    
+    rec_status = 1;
+    
+    while (rec_status > 0) {
+        ret = av_read_frame(fmt_ctx, &pkt);
+        if (ret >=0) {
+            av_log(NULL, AV_LOG_INFO, "packet size is %d(%p)\n", pkt.size, pkt.data);
+            fwrite(pkt.data, pkt.size, 1, outFile);
+            fflush(outFile);
+        }
+        av_packet_unref(&pkt);
+    }
+    
+    fclose(outFile);
+    
+    avformat_close_input(&fmt_ctx);
+    av_log_set_level(AV_LOG_DEBUG);
+    av_log(NULL, AV_LOG_DEBUG, "stop record video........\n");
+    
+    return;
     
 }
 
 
+/**
+    play    ffplay -ar 44100 -ac 2  -f f32le 1.pcm
+ */
 void rec_audio(){
-    
     printf("ffmpeg record audio...");
     
-    
-    AVFormatContext *fmt_ctx = registerAVDevice();
+    AVFormatContext *fmt_ctx = registerAVDevice(":0",NULL);
     if (fmt_ctx == NULL) {
         printf("error in register av device...rmt_ctx==null");
         return;
