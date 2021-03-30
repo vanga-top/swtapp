@@ -9,8 +9,9 @@
 
 static int rec_status = 0;
 
-void callFFmpeg (){
-    printf("c ... call\r\n");
+AVFormatContext* registerAVDevice(){
+    
+    printf("start register av devices...\r\n");
     
     int ret = 0;
     char errors[1024] = {0,};
@@ -18,9 +19,6 @@ void callFFmpeg (){
     //[[video device]:[audio device]]
     char *devicename = ":0";
     AVDictionary *option = NULL;
-    
-    //av packet
-    AVPacket pkt;
     
     //register all device
     avdevice_register_all();
@@ -33,9 +31,34 @@ void callFFmpeg (){
                                    &option)) < 0 ) {
         av_strerror(ret, errors, 1024);
         av_log(NULL, AV_LOG_ERROR, " Failed to open audio device, [%d] %s\n",ret,errors);
+        return NULL;
+    }
+    
+    return fmt_ctx;
+}
+
+/**
+    采集视频模块
+ */
+void rec_video(){
+    
+}
+
+
+void rec_audio(){
+    
+    printf("ffmpeg record audio...");
+    
+    
+    AVFormatContext *fmt_ctx = registerAVDevice();
+    if (fmt_ctx == NULL) {
+        printf("error in register av device...rmt_ctx==null");
         return;
     }
     
+    int ret = 0;
+    //av packet
+    AVPacket pkt;
     
     //create file
     char *out ="/Users/chenhui/qiniu/temp/1.pcm";
@@ -48,15 +71,15 @@ void callFFmpeg (){
     rec_status = 1;
     
     //重采样
-    SwrContext *swr_ctx = NULL;
-    swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO,AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
-  
-    if (!swr_ctx) {
-        return;
-    }
-    if (swr_init(swr_ctx)!=0) {
-        return;
-    }
+//    SwrContext *swr_ctx = NULL;
+//    swr_ctx = swr_alloc_set_opts(NULL, AV_CH_LAYOUT_STEREO,AV_SAMPLE_FMT_S16, 44100, AV_CH_LAYOUT_STEREO, AV_SAMPLE_FMT_FLT, 44100, 0, NULL);
+//
+//    if (!swr_ctx) {
+//        return;
+//    }
+//    if (swr_init(swr_ctx)!=0) {
+//        return;
+//    }
     
     
     while (rec_status > 0) {
@@ -77,9 +100,13 @@ void callFFmpeg (){
     av_log(NULL, AV_LOG_DEBUG, "stop record audio........\n");
     
     return;
+    
 }
 
 
 void set_rec_status(int status) {
     rec_status = status;
 }
+
+
+

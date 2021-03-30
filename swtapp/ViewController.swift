@@ -44,7 +44,7 @@ class ViewController: NSViewController {
     
     @objc
     func recAudio()  {
-        callFFmpeg()
+        rec_audio()
     }
 
     override var representedObject: Any? {

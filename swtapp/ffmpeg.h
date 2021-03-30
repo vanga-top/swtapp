@@ -15,7 +15,7 @@
 #include "libavcodec/avcodec.h"
 #include "libswresample/swresample.h"
 
-void callFFmpeg(void);
+void rec_audio(void);
 void set_rec_status(int status);
 
 #endif /* ffmpeg_h */
