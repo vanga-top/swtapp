@@ -11,10 +11,10 @@ class ViewController: NSViewController {
     
     var recStatus :Bool = false
     var thread :Thread?
-    let btn = NSButton.init(title: "button", target: nil, action: nil)
+    let btn_audio = NSButton.init(title: "button", target: nil, action: nil)
     
     let btn_vdieo = NSButton.init(title: "录制视频", target: nil, action: nil)
-    
+    var recVideoStatus :Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,15 +22,15 @@ class ViewController: NSViewController {
         self.view.setFrameSize(NSSize(width: 320, height: 240))
         
         //audio record
-        btn.title = "录制音频";
-        btn.frame = NSRect(x: 320/2-10, y: 240/2-15, width: 80, height: 30)
-        btn.bezelStyle = .rounded
-        btn.setButtonType(.pushOnPushOff)
+        btn_audio.title = "录制音频";
+        btn_audio.frame = NSRect(x: 320/2-10, y: 240/2-15, width: 80, height: 30)
+        btn_audio.bezelStyle = .rounded
+        btn_audio.setButtonType(.pushOnPushOff)
         
-        btn.target = self
-        btn.action = #selector(recAudioAction)
+        btn_audio.target = self
+        btn_audio.action = #selector(recAudioAction)
         
-        self.view.addSubview(btn)
+        self.view.addSubview(btn_audio)
         
         //video record
         btn_vdieo.frame = NSRect(x: 320/2-100, y: 240/2-15, width: 80, height: 30)
@@ -54,10 +54,10 @@ class ViewController: NSViewController {
         if recStatus {
             thread = Thread.init(target: self, selector:#selector(self.recAudio),object:nil)
             thread?.start()
-            self.btn.title = "停止音频";
+            self.btn_audio.title = "停止音频";
         }else {
             set_rec_status(0)
-            self.btn.title = "录制音频";
+            self.btn_audio.title = "录制音频";
         }
     }
     
